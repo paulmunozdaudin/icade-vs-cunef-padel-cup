@@ -1,5 +1,7 @@
 # ICADE vs CUNEF — Padel Cup
 
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fpaulmunozdaudin%2Ficade-vs-cunef-padel-cup&project-name=padel-cup-web&repository-name=padel-cup-web)
+
 Landing para vender entradas del torneo de pádel **pareja ICADE 🆚 pareja CUNEF**
 + tardeo con DJ + 2 copas. Next.js 16 (App Router) + TypeScript + Tailwind CSS 4.
 Sin dependencias extra: Stripe se usa vía su API REST.
