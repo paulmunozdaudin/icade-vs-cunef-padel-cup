@@ -1,0 +1,174 @@
+@import "tailwindcss";
+
+/* ---------------------------------------------------------------------------
+   Identidad visual: verde pista, blanco, negro, beige sutil y un toque
+   metálico. El amarillo "pelota" se reserva para los CTA.
+--------------------------------------------------------------------------- */
+:root {
+  --court: #0f3d2e;
+  --court-deep: #09291f;
+  --court-line: rgba(255, 255, 255, 0.14);
+  --ink: #0b0c0b;
+  --paper: #f4f0e6;
+  --paper-2: #ebe5d6;
+  --ball: #dcf24f;
+  --ball-deep: #c6dd2f;
+  --metal: #c3c8cc;
+}
+
+@theme inline {
+  --color-court: var(--court);
+  --color-court-deep: var(--court-deep);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-ball: var(--ball);
+  --color-ball-deep: var(--ball-deep);
+  --color-metal: var(--metal);
+  --font-sans: var(--font-body);
+  --font-display: var(--font-display);
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 72px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  background: var(--ink);
+  color: var(--ink);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+@layer components {
+  .font-display {
+    font-family: var(--font-display), "Arial Narrow", Impact, sans-serif;
+    font-weight: 400;
+    letter-spacing: 0.01em;
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .eyebrow {
+    @apply text-[11px] font-semibold uppercase tracking-[0.28em];
+  }
+
+  /* Texto con brillo metálico muy discreto */
+  .text-metal {
+    background: linear-gradient(100deg, #9aa1a6 0%, #eef1f3 35%, #b4babf 55%, #f4f6f7 75%, #9aa1a6 100%);
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: metal-sheen 7s ease-in-out infinite;
+  }
+
+  /* CTA principal: el elemento más visible de cada pantalla */
+  .btn-ball {
+    @apply relative inline-flex min-h-14 items-center justify-center gap-3 rounded-full bg-ball px-8 text-base font-extrabold uppercase tracking-[0.08em] text-ink transition duration-300 ease-out select-none;
+    box-shadow: 0 10px 30px -10px rgba(220, 242, 79, 0.55), inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+  }
+  .btn-ball:hover {
+    @apply -translate-y-0.5 bg-[#e6fa6a];
+    box-shadow: 0 16px 40px -12px rgba(220, 242, 79, 0.7), inset 0 -2px 0 rgba(0, 0, 0, 0.12);
+  }
+  .btn-ball:active {
+    @apply translate-y-0 scale-[0.98];
+  }
+  .btn-ball:focus-visible,
+  .btn-ghost:focus-visible {
+    @apply outline-2 outline-offset-4 outline-ball;
+  }
+
+  .btn-ghost {
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full border px-6 text-sm font-bold uppercase tracking-[0.1em] transition duration-300;
+  }
+
+  .chip {
+    @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-[12px] font-semibold uppercase tracking-[0.08em] whitespace-nowrap;
+  }
+
+  /* Textura sutil de moqueta/pista */
+  .grain {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+    background-size: 3px 3px;
+  }
+
+  .field {
+    @apply w-full rounded-2xl border border-ink/10 bg-white px-4 py-3.5 text-base text-ink outline-none transition placeholder:text-ink/35 focus:border-court focus:ring-4 focus:ring-court/15;
+  }
+  .field[aria-invalid="true"] {
+    @apply border-red-500/70 focus:ring-red-500/15;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Animaciones
+-------------------------------------------------------------------------- */
+@keyframes metal-sheen {
+  0%, 100% { background-position: 100% 0; }
+  50% { background-position: 0% 0; }
+}
+
+@keyframes ball-bounce {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  45% { transform: translateY(-14px) rotate(120deg); }
+  55% { transform: translateY(-14px) rotate(140deg); }
+}
+
+@keyframes ball-shadow {
+  0%, 100% { transform: scaleX(1); opacity: 0.35; }
+  50% { transform: scaleX(0.6); opacity: 0.15; }
+}
+
+@keyframes eq {
+  0%, 100% { transform: scaleY(0.3); }
+  50% { transform: scaleY(1); }
+}
+
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes sheet-in {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes backdrop-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-ball { animation: ball-bounce 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+.animate-ball-shadow { animation: ball-shadow 2.4s cubic-bezier(0.45, 0, 0.55, 1) infinite; }
+.animate-eq { animation: eq 1.1s ease-in-out infinite; transform-origin: bottom; }
+.animate-fade-up { animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.animate-sheet { animation: sheet-in 0.35s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.animate-backdrop { animation: backdrop-in 0.25s ease-out both; }
+
+/* Aparición suave al hacer scroll. Solo se oculta el contenido si JS está
+   activo (la clase la añade <RevealObserver />), así nunca se queda en blanco. */
+.reveal-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.reveal-ready [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  .reveal-ready [data-reveal] { opacity: 1; transform: none; }
+}
