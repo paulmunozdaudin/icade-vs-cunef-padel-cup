@@ -42,8 +42,8 @@ Los datos de cada jugador (nombre, edad, universidad, pareja) se guardan como
 
 En la sección de la rivalidad la gente vota por su universidad (un voto por
 navegador) y ve el porcentaje en directo. Para activarla: en Vercel,
-**Storage → Create Database → Upstash for Redis** (plan gratis) y conéctala al
-proyecto; después **Redeploy**. Sin base de datos se muestra "La votación se
+**Storage → Create Database → Redis** o **Upstash for Redis** (plan gratis)
+y conéctala al proyecto (vale cualquiera de las dos); después **Redeploy**. Sin base de datos se muestra "La votación se
 abrirá muy pronto" y no se inventan cifras.
 
 ## Parejas y cruces ICADE 🆚 CUNEF

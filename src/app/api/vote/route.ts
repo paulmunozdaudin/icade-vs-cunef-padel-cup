@@ -11,12 +11,12 @@ async function myVote(): Promise<University | null> {
 
 /** Recuento actual + el voto de este navegador (si ya votó). */
 export async function GET() {
-  if (!isVotingConfigured()) return Response.json({ enabled: false });
+  if (!isVotingConfigured()) return Response.json({ enabled: false, reason: "not-configured" });
   try {
     return Response.json({ enabled: true, counts: await getVoteCounts(), myVote: await myVote() });
   } catch (err) {
     console.error("[vote] Error leyendo votos", err);
-    return Response.json({ enabled: false }, { status: 502 });
+    return Response.json({ enabled: false, reason: "error" }, { status: 502 });
   }
 }
 

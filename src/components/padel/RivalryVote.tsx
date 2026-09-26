@@ -8,6 +8,7 @@ type Counts = Record<University, number>;
 type State =
   | { status: "loading" }
   | { status: "disabled" }
+  | { status: "error" }
   | { status: "ready"; counts: Counts; myVote: University | null };
 
 const TONES: Record<University, string> = { ICADE: "bg-ink", CUNEF: "bg-court" };
@@ -26,9 +27,13 @@ export default function RivalryVote() {
     fetch("/api/vote", { cache: "no-store" })
       .then((r) => r.json())
       .then((data) =>
-        setState(data.enabled ? { status: "ready", counts: data.counts, myVote: data.myVote } : { status: "disabled" }),
+        setState(
+          data.enabled
+            ? { status: "ready", counts: data.counts, myVote: data.myVote }
+            : { status: data.reason === "not-configured" ? "disabled" : "error" },
+        ),
       )
-      .catch(() => setState({ status: "disabled" }));
+      .catch(() => setState({ status: "error" }));
   }, []);
 
   async function vote(university: University) {
@@ -123,6 +128,9 @@ export default function RivalryVote() {
         )}
         {state.status === "disabled" && (
           <p className="text-sm font-semibold uppercase tracking-[0.14em] text-ink/50">La votación se abrirá muy pronto</p>
+        )}
+        {state.status === "error" && (
+          <p className="text-sm font-semibold text-red-700">No se ha podido cargar la votación. Recarga la página.</p>
         )}
         {error && <p className="mt-2 text-sm font-medium text-red-700">{error}</p>}
       </div>
